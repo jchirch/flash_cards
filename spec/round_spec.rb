@@ -67,8 +67,7 @@ RSpec.describe Round do
 
     it 'tracks number of correct cards' do
         new_turn = @round.take_turn('Juneau')
-        expect(@round.number_correct).to eq(1)
-        
+        expect(@round.number_correct).to eq(1)  
     end
 
     it 'doesnt track incorrect guesses' do
@@ -78,8 +77,21 @@ RSpec.describe Round do
 
     it 'knows number of correct answers by category' do
         new_turn = @round.take_turn('Juneau')
-        # new_turn = @round.take_turn('Venus')
-        expect(@round.number_correct_by_category(:Geography)).to eq(1)
-        # expect(@round.number_correct_by_category(:STEM)).to eq(0)
+        new_turn = @round.take_turn('Texas')
+        expect(@round.number_correct_by_category(:Geography)).to eq 1
+        expect(@round.number_correct_by_category(:STEM)).to eq 0
+    end
+
+    it 'knows percent correct' do
+        new_turn = @round.take_turn('Juneau')
+        new_turn = @round.take_turn('Texas')
+        expect(@round.percent_correct).to eq (50.0)
+    end
+
+    it 'knows percent correct by category' do
+        new_turn = @round.take_turn('Juneau')
+        new_turn = @round.take_turn('Texas')
+        expect(@round.percent_correct_by_category(:Geography)).to eq(100.0)
+        expect(@round.percent_correct_by_category(:STEM)).to eq(0.0)
     end
 end

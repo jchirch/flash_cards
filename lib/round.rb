@@ -6,8 +6,6 @@ class Round
         @turns = []
         @card_index = 0
         @correct_counter = 0
-        @STEM_counter = 0
-        @geo_counter = 0
     end
 
     def current_card
@@ -22,7 +20,6 @@ class Round
         if new_turn.correct?
             @correct_counter += 1   
         end
-
         return new_turn
     end
 
@@ -31,21 +28,28 @@ class Round
     end
 
     def number_correct_by_category(category)
-        if @card.category == category && @new_turn.correct? && @card.category == :STEM
-            @STEM_counter += 1
-        else @card.category == category && @new_turn.correct? && @card.category == :Geography
-            @geo_counter += 1
+        numbers_correct = 0
+        @turns.each do |turn|
+            if turn.card.category == category && turn.correct?
+                numbers_correct += 1
+            end
         end
+        numbers_correct
+    end
 
-        # if category == :STEM
-    #     @STEM_counter
-    # else category == :Geography
-    #     @geo_counter
-    
-        #if category = stem && new_turn.correct?
-    #     stem counter += 1
-    # else category = geo && new_turn.correct?
-    # geo counter += 1
+    def percent_correct
+        @correct_counter / @turns.length.to_f * 100
+    end
 
+    def percent_correct_by_category(category)
+        correct_counter = 0
+        category_total = 0
+        @turns.each do |turn|
+            if turn.card.category == category && turn.correct?
+                correct_counter += 1 
+            end
+        end
+        category_total += 1
+        correct_counter / category_total.to_f * 100
     end
 end
