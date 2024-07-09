@@ -6,6 +6,8 @@ class Round
         @turns = []
         @card_index = 0
         @correct_counter = 0
+        @STEM_counter = 0
+        @geo_counter = 0
     end
 
     def current_card
@@ -17,14 +19,33 @@ class Round
         new_turn = Turn.new(guess, current_card)
         @turns.push(new_turn)
         @deck.cards.shift
+        if new_turn.correct?
+            @correct_counter += 1   
+        end
+
         return new_turn
     end
 
-    def number_correct(turn)
-        if turn.correct? == true
-            @correct_counter += 1   
-        end
+    def number_correct
+       @correct_counter  
     end
 
+    def number_correct_by_category(category)
+        if @card.category == category && @new_turn.correct? && @card.category == :STEM
+            @STEM_counter += 1
+        else @card.category == category && @new_turn.correct? && @card.category == :Geography
+            @geo_counter += 1
+        end
 
+        # if category == :STEM
+    #     @STEM_counter
+    # else category == :Geography
+    #     @geo_counter
+    
+        #if category = stem && new_turn.correct?
+    #     stem counter += 1
+    # else category = geo && new_turn.correct?
+    # geo counter += 1
+
+    end
 end
